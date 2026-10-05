@@ -1,0 +1,18 @@
+---
+import Phone from '@lucide/astro/icons/phone';
+import Send from '@lucide/astro/icons/send';
+import { telHref } from '../data/company';
+import { url } from '../lib/url';
+---
+
+<div class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-900/10 bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:hidden">
+  <div class="grid grid-cols-[1fr_auto] gap-2">
+    <a href={telHref} class="btn-primary w-full">
+      <Phone class="size-5" aria-hidden="true" />
+      Zadzwoń 24/7
+    </a>
+    <a href={url('#kontakt')} class="btn-secondary !px-4" aria-label="Napisz do nas">
+      <Send class="size-5" aria-hidden="true" />
+    </a>
+  </div>
+</div>

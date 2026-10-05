@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+import EmergencyBar from '../components/EmergencyBar.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import MobileCallBar from '../components/MobileCallBar.astro';
+import { company } from '../data/company';
+import { url } from '../lib/url';
+import { siteConfig } from '../../site.config.mjs';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Exclude this page from search engines regardless of the global setting. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = `${company.name}: transport sanitarny, opieka medyczna i zabezpieczenie medyczne imprez. ${company.address.city} i okolice, woj. ${company.address.region}. Całodobowa dyspozytornia: ${company.phone.display}.`,
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} | ${company.name}`
+  : `${company.name}: transport sanitarny i opieka medyczna | ${company.address.city}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(url('og-image.png'), Astro.site);
+const robots = siteConfig.indexable && !noindex ? 'index, follow' : 'noindex, nofollow';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': ['MedicalBusiness', 'LocalBusiness'],
+  name: company.name,
+  ...(company.legalName && { legalName: company.legalName }),
+  description,
+  slogan: company.tagline,
+  url: new URL(url(), Astro.site).href,
+  logo: new URL(url('logo.svg'), Astro.site).href,
+  image: ogImage.href,
+  telephone: company.phone.e164,
+  ...(company.email && { email: company.email }),
+  ...(company.nip && { vatID: `PL${company.nip.replace(/\D/g, '')}` }),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.address.street,
+    postalCode: company.address.postalCode,
+    addressLocality: company.address.city,
+    addressRegion: company.address.region,
+    addressCountry: company.address.country,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '00:00',
+    closes: '23:59',
+  },
+  ...(company.serviceArea && { areaServed: company.serviceArea }),
+};
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#1f3a7a" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={url('favicon-32.png')} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content={company.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${company.name}: ${company.tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
+  </head>
+  <body class="pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:pb-0">
+    <a
+      href="#tresc"
+      class="sr-only z-50 rounded-full bg-navy-800 px-5 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+    >
+      Przejdź do treści
+    </a>
+    <EmergencyBar />
+    <Header />
+    <main id="tresc">
+      <slot />
+    </main>
+    <Footer />
+    <MobileCallBar />
+  </body>
+</html>

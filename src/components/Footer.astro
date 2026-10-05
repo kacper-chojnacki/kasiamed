@@ -1,0 +1,84 @@
+---
+import Clock from '@lucide/astro/icons/clock';
+import Mail from '@lucide/astro/icons/mail';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Phone from '@lucide/astro/icons/phone';
+import Logo from './Logo.astro';
+import Placeholder from './Placeholder.astro';
+import { company, fullAddress, mailHref, mapsHref, services, telHref } from '../data/company';
+import { url } from '../lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative overflow-hidden bg-navy-950 text-navy-200">
+  <svg class="pointer-events-none absolute inset-x-0 top-0 h-24 w-full text-white/[0.06]" viewBox="0 0 1200 96" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 60 H420 L440 40 L460 78 L480 10 L500 86 L515 60 H1200" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" />
+  </svg>
+
+  <div class="container-page relative grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:py-20">
+    <div>
+      <Logo variant="light" />
+      <p class="mt-6 max-w-xs text-sm leading-relaxed text-navy-200/90">{company.summary}</p>
+    </div>
+
+    <div>
+      <h2 class="font-display text-sm font-semibold tracking-wider text-white uppercase">Usługi</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        {services.map((s) => <li><a href={url(`#${s.id}`)} class="transition hover:text-white">{s.title}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="font-display text-sm font-semibold tracking-wider text-white uppercase">Informacje</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        <li><a href={url('#o-nas')} class="transition hover:text-white">O nas</a></li>
+        <li><a href={url('#faq')} class="transition hover:text-white">Najczęstsze pytania</a></li>
+        <li><a href={url('#kontakt')} class="transition hover:text-white">Kontakt</a></li>
+        <li><a href={url('polityka-prywatnosci/')} class="transition hover:text-white">Polityka prywatności</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="font-display text-sm font-semibold tracking-wider text-white uppercase">Kontakt</h2>
+      <ul class="mt-5 space-y-4 text-sm">
+        <li>
+          <a href={telHref} class="group flex items-start gap-3">
+            <Phone class="mt-0.5 size-4 shrink-0 text-brand-red-500" aria-hidden="true" />
+            <span>
+              <span class="block font-display text-lg font-bold text-white group-hover:underline">{company.phone.display}</span>
+              <span class="text-xs">Dyspozytornia 24/7</span>
+            </span>
+          </a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Mail class="mt-0.5 size-4 shrink-0 text-brand-red-500" aria-hidden="true" />
+          {mailHref ? <a href={mailHref} class="hover:text-white">{company.email}</a> : <Placeholder label="e-mail" />}
+        </li>
+        <li>
+          <a href={mapsHref} target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 hover:text-white">
+            <MapPin class="mt-0.5 size-4 shrink-0 text-brand-red-500" aria-hidden="true" />
+            <span>{fullAddress}</span>
+          </a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Clock class="mt-0.5 size-4 shrink-0 text-brand-red-500" aria-hidden="true" />
+          <span>{company.dispatchHours}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-page flex flex-col gap-3 py-6 text-xs text-navy-300 md:flex-row md:items-center md:justify-between">
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span>© {year} {company.legalName ?? company.name}</span>
+        <span aria-hidden="true">·</span>
+        <span>NIP: {company.nip ?? <Placeholder label="NIP" />}</span>
+        <span aria-hidden="true">·</span>
+        <span>REGON: {company.regon ?? <Placeholder label="REGON" />}</span>
+      </p>
+      <a href={url('polityka-prywatnosci/')} class="hover:text-white">Polityka prywatności</a>
+    </div>
+  </div>
+</footer>

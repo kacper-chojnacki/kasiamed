@@ -1,0 +1,31 @@
+---
+import StarMark from './StarMark.astro';
+import { uid } from '../lib/uid';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const id = uid('emblem');
+---
+
+<div class:list={['relative aspect-square', className]}>
+  <svg viewBox="0 0 200 200" class="absolute inset-0 h-full w-full" role="img" aria-label="Logo KASIA MED" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id={`${id}-top`} d="M34.2 76.1 A70 70 0 0 1 165.8 76.1" />
+      <path id={`${id}-bottom`} d="M22.7 79.3 A80 80 0 1 0 177.3 79.3" />
+    </defs>
+    <circle cx="100" cy="100" r="98" fill="#1f3a7a" />
+    <circle cx="100" cy="100" r="89" fill="#fff" />
+    <text class="font-display" font-size="23" font-weight="800" fill="#1f3a7a" letter-spacing="1">
+      <textPath href={`#${id}-top`} startOffset="50%" text-anchor="middle">KASIA MED</textPath>
+    </text>
+    <text class="font-display" font-size="7.6" font-weight="700" fill="#c62828" letter-spacing="0.55">
+      <textPath href={`#${id}-bottom`} startOffset="50%" text-anchor="middle">
+        OPIEKA MEDYCZNA • RATOWNICTWO • TRANSPORT SANITARNY
+      </textPath>
+    </text>
+  </svg>
+  <StarMark class="absolute top-[25%] left-[25%] h-1/2 w-1/2" />
+</div>

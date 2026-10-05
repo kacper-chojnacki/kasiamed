@@ -1,0 +1,119 @@
+---
+import Placeholder from '../components/Placeholder.astro';
+import Base from '../layouts/Base.astro';
+import { company, fullAddress, mailHref, telHref } from '../data/company';
+
+const updated = '5 października 2026';
+---
+
+<Base title="Polityka prywatności" description={`Polityka prywatności serwisu ${company.name}: zasady przetwarzania danych osobowych i informacje o plikach cookies.`}>
+  <section class="bg-mist py-16 lg:py-20">
+    <div class="container-page max-w-3xl">
+      <p class="eyebrow">Informacje prawne</p>
+      <h1 class="mt-4 text-4xl font-extrabold sm:text-5xl">Polityka prywatności</h1>
+      <p class="mt-4 text-slate-500">Ostatnia aktualizacja: {updated}</p>
+    </div>
+  </section>
+
+  <section class="py-14 lg:py-20">
+    <div class="prose-legal container-page max-w-3xl text-slate-700">
+      <p>
+        Szanujemy Twoją prywatność. Poniżej wyjaśniamy, jakie dane osobowe przetwarzamy w związku z korzystaniem ze
+        strony internetowej {company.name}, w jakim celu i jakie prawa Ci przysługują. Dokument spełnia obowiązek
+        informacyjny wynikający z art. 13 Rozporządzenia Parlamentu Europejskiego i Rady (UE) 2016/679 (RODO).
+      </p>
+
+      <h2>1. Administrator danych</h2>
+      <p>
+        Administratorem Twoich danych osobowych jest {company.legalName ?? <Placeholder label="pełna nazwa firmy" />},
+        {fullAddress}, NIP: {company.nip ?? <Placeholder label="NIP" />}, REGON: {company.regon ?? <Placeholder label="REGON" />}.
+      </p>
+      <p>
+        Kontakt z administratorem: telefonicznie pod numerem <a href={telHref}>{company.phone.display}</a>, e-mailowo:
+        {mailHref ? <a href={mailHref}>{company.email}</a> : <Placeholder label="adres e-mail" />} lub pisemnie na adres biura.
+      </p>
+
+      <h2>2. Jakie dane przetwarzamy i w jakim celu</h2>
+      <p>Jeżeli wyślesz do nas wiadomość przez formularz kontaktowy, przetwarzamy dane podane w formularzu:</p>
+      <ul>
+        <li>imię i nazwisko, numer telefonu, opcjonalnie adres e-mail,</li>
+        <li>informacje o zapytaniu (rodzaj usługi, preferowany termin, trasa, treść wiadomości).</li>
+      </ul>
+      <p>
+        Dane przetwarzamy wyłącznie w celu odpowiedzi na zapytanie, przygotowania wyceny i ewentualnego zawarcia
+        oraz wykonania umowy. Prosimy, aby w formularzu nie podawać szczegółowych informacji o stanie zdrowia. Ustalamy
+        je telefonicznie, w zakresie niezbędnym do realizacji usługi.
+      </p>
+      <p>
+        Jeżeli kontaktujesz się z nami telefonicznie lub e-mailowo, przetwarzamy dane przekazane w ten sposób w tych
+        samych celach.
+      </p>
+
+      <h2>3. Podstawa prawna</h2>
+      <ul>
+        <li>
+          art. 6 ust. 1 lit. b RODO: podjęcie działań na Twoje żądanie przed zawarciem umowy (odpowiedź na zapytanie,
+          wycena) oraz wykonanie umowy,
+        </li>
+        <li>
+          art. 6 ust. 1 lit. f RODO: nasz prawnie uzasadniony interes polegający na prowadzeniu korespondencji oraz
+          ewentualnym ustaleniu, dochodzeniu lub obronie roszczeń.
+        </li>
+      </ul>
+      <p>Podanie danych jest dobrowolne, ale niezbędne do udzielenia odpowiedzi na zapytanie.</p>
+
+      <h2>4. Odbiorcy danych</h2>
+      <p>Twoje dane mogą być przekazywane wyłącznie podmiotom, które wspierają nas w działaniu strony i komunikacji:</p>
+      <ul>
+        <li>dostawcy usługi obsługi formularza kontaktowego (Web3Forms), który przekazuje wiadomość na naszą skrzynkę e-mail,</li>
+        <li>dostawcy poczty elektronicznej,</li>
+        <li>dostawcy hostingu strony (GitHub, Inc.), który przetwarza techniczne dane połączenia, np. adres IP.</li>
+      </ul>
+      <p>
+        Niektórzy z tych dostawców mogą przetwarzać dane poza Europejskim Obszarem Gospodarczym. W takim przypadku
+        odbywa się to na podstawie mechanizmów przewidzianych w RODO, takich jak decyzja Komisji Europejskiej
+        stwierdzająca odpowiedni stopień ochrony lub standardowe klauzule umowne.
+      </p>
+
+      <h2>5. Okres przechowywania</h2>
+      <p>
+        Dane z zapytań przechowujemy przez czas potrzebny do udzielenia odpowiedzi i prowadzenia korespondencji, a jeśli
+        dojdzie do zawarcia umowy, przez okres wymagany przepisami prawa (np. podatkowymi) oraz do upływu terminu
+        przedawnienia ewentualnych roszczeń.
+      </p>
+
+      <h2>6. Twoje prawa</h2>
+      <p>W związku z przetwarzaniem danych przysługuje Ci prawo do:</p>
+      <ul>
+        <li>dostępu do swoich danych i otrzymania ich kopii,</li>
+        <li>sprostowania danych,</li>
+        <li>usunięcia danych,</li>
+        <li>ograniczenia przetwarzania,</li>
+        <li>przenoszenia danych,</li>
+        <li>wniesienia sprzeciwu wobec przetwarzania opartego na prawnie uzasadnionym interesie.</li>
+      </ul>
+      <p>
+        Masz także prawo wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa,
+        <a href="https://uodo.gov.pl" target="_blank" rel="noopener noreferrer">uodo.gov.pl</a>).
+      </p>
+      <p>Twoje dane nie są wykorzystywane do zautomatyzowanego podejmowania decyzji ani profilowania.</p>
+
+      <h2>7. Pliki cookies i analityka</h2>
+      <p>
+        Strona nie używa plików cookies ani narzędzi analitycznych i śledzących. Nie wyświetlamy reklam. Czcionki
+        i wszystkie elementy strony są serwowane bezpośrednio z naszego serwera, bez łączenia się z zewnętrznymi
+        serwisami.
+      </p>
+      <p>
+        Link „Pokaż na mapie” otwiera serwis Google Maps w nowej karcie. Od tego momentu obowiązuje polityka
+        prywatności Google.
+      </p>
+
+      <h2>8. Zmiany polityki prywatności</h2>
+      <p>
+        Polityka może być aktualizowana, np. w razie zmian w przepisach lub w sposobie działania strony. Aktualna wersja
+        jest zawsze dostępna na tej stronie.
+      </p>
+    </div>
+  </section>
+</Base>

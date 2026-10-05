@@ -1,0 +1,53 @@
+---
+import { ecgLine, lowerClip, rod, rodKnob, snake, snakeHead, starBars, upperClip } from '../lib/star';
+import { uid } from '../lib/uid';
+
+interface Props {
+  class?: string;
+  /** Accessible name; omit when the mark is decorative. */
+  title?: string;
+}
+
+const { class: className, title } = Astro.props;
+const id = uid('star');
+---
+
+<svg
+  viewBox="0 0 100 100"
+  class={className}
+  role={title ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <clipPath id={`${id}-u`}><path d={upperClip} /></clipPath>
+    <clipPath id={`${id}-l`}><path d={lowerClip} /></clipPath>
+    <clipPath id={`${id}-s`}>
+      {starBars.map((b) => <rect x={b.x} y={b.y} width={b.width} height={b.height} transform={b.transform} />)}
+    </clipPath>
+  </defs>
+  <g clip-path={`url(#${id}-u)`} fill="#1f3a7a">
+    {starBars.map((b) => <rect x={b.x} y={b.y} width={b.width} height={b.height} rx="1.5" transform={b.transform} />)}
+  </g>
+  <g clip-path={`url(#${id}-l)`} fill="#c62828">
+    {starBars.map((b) => <rect x={b.x} y={b.y} width={b.width} height={b.height} rx="1.5" transform={b.transform} />)}
+  </g>
+  <path d={ecgLine} clip-path={`url(#${id}-s)`} fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" />
+  <g fill="#fff">
+    <rect x={rod.x} y={rod.y} width={rod.width} height={rod.height} rx={rod.rx} />
+    <circle cx={rodKnob.cx} cy={rodKnob.cy} r={rodKnob.r} />
+  </g>
+  <path d={snake} clip-path={`url(#${id}-u)`} fill="none" stroke="#1f3a7a" stroke-width="6.6" stroke-linecap="round" />
+  <path d={snake} clip-path={`url(#${id}-l)`} fill="none" stroke="#c62828" stroke-width="6.6" stroke-linecap="round" />
+  <g fill="#fff">
+    <path d={snake} fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" />
+    <ellipse
+      cx={snakeHead.cx}
+      cy={snakeHead.cy}
+      rx={snakeHead.rx}
+      ry={snakeHead.ry}
+      transform={`rotate(-12 ${snakeHead.cx} ${snakeHead.cy})`}
+    />
+  </g>
+</svg>

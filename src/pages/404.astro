@@ -1,0 +1,22 @@
+---
+import Phone from '@lucide/astro/icons/phone';
+import Base from '../layouts/Base.astro';
+import { company, telHref } from '../data/company';
+import { url } from '../lib/url';
+---
+
+<Base title="Nie znaleziono strony" noindex>
+  <section class="bg-mist py-24 lg:py-32">
+    <div class="container-page max-w-2xl text-center">
+      <p class="font-display text-8xl font-extrabold text-navy-100">404</p>
+      <h1 class="mt-4 text-3xl font-extrabold sm:text-4xl">Nie znaleziono strony</h1>
+      <p class="mt-5 text-lg leading-relaxed text-slate-600">
+        Strona, której szukasz, nie istnieje lub została przeniesiona. Jeśli potrzebujesz pomocy, zadzwoń do nas.
+      </p>
+      <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href={url()} class="btn-secondary">Strona główna</a>
+        <a href={telHref} class="btn-primary"><Phone class="size-5" aria-hidden="true" />{company.phone.display}</a>
+      </div>
+    </div>
+  </section>
+</Base>

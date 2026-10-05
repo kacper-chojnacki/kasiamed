@@ -1,0 +1,24 @@
+---
+import CircleCheck from '@lucide/astro/icons/circle-check';
+import Phone from '@lucide/astro/icons/phone';
+import Base from '../layouts/Base.astro';
+import { company, telHref } from '../data/company';
+import { url } from '../lib/url';
+---
+
+<Base title="Dziękujemy za wiadomość" noindex>
+  <section class="bg-mist py-24 lg:py-32">
+    <div class="container-page max-w-2xl text-center">
+      <CircleCheck class="mx-auto size-16 text-emerald-600" aria-hidden="true" />
+      <h1 class="mt-6 text-4xl font-extrabold sm:text-5xl">Dziękujemy!</h1>
+      <p class="mt-5 text-lg leading-relaxed text-slate-600">
+        Twoja wiadomość została wysłana. Skontaktujemy się najszybciej, jak to możliwe. W pilnych sprawach zadzwoń
+        do naszej dyspozytorni.
+      </p>
+      <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href={telHref} class="btn-primary"><Phone class="size-5" aria-hidden="true" />{company.phone.display}</a>
+        <a href={url()} class="btn-secondary">Wróć na stronę główną</a>
+      </div>
+    </div>
+  </section>
+</Base>
