@@ -6,7 +6,7 @@ Site content is in Polish; code and docs are in English.
 - **Stack:** [Astro](https://astro.build) 7 (static output, no client framework), Tailwind CSS 4, TypeScript
 - **Hosting:** GitHub Pages, deployed by GitHub Actions on every push to `main`
 - **Contact form:** [Web3Forms](https://web3forms.com) delivers submissions straight to an email inbox, no backend needed
-- **Lighthouse:** Performance 98–100, Accessibility, Best Practices and SEO all 100
+- **Lighthouse:** Performance 97–100, Accessibility 100, Best Practices 100, SEO 100 (once indexing is enabled)
 
 ## Security and privacy by design
 
@@ -33,7 +33,7 @@ npm run preview   # serve the production build (CSP is only active here)
 | What | File |
 |---|---|
 | Company details: phone, email, address, NIP, REGON, hours, service area | `src/data/company.ts` |
-| Services, audiences, steps, values, FAQ | `src/data/company.ts` |
+| Services, ordering steps, FAQ | `src/data/company.ts` |
 | Domain, base path, search indexing, Web3Forms key | `site.config.mjs` |
 | Page layout and sections | `src/pages/index.astro` |
 | Privacy policy | `src/pages/polityka-prywatnosci.astro` |
@@ -47,16 +47,25 @@ structured data. Fill it in and the placeholder disappears.
 Drop images into `src/assets/photos/` using these file names (`.jpg`, `.png` or `.webp`). They are optimised
 to responsive WebP automatically at build time:
 
-| File name | Shows |
+| File name | Shown in |
 |---|---|
-| `ambulans.*` | Ambulance exterior (large tile, landscape ~16:10) |
-| `wnetrze.*` | Ambulance interior |
-| `zespol.*` | Team or event coverage |
+| `ambulans.*` | Hero, next to the phone number. Without it, the round logo is shown. |
+| `wnetrze.*` | "O nas" section (optional) |
+| `zespol.*` | "O nas" section (optional) |
 
-Without photos, the preview build shows dashed placeholders. With `indexable: true`, an empty gallery is hidden.
 Blur number plates and anyone who has not agreed to be shown. While `photosAreIllustrative` in
 `src/data/company.ts` is `true`, every photo carries a visible "Zdjęcie poglądowe" (illustrative image) label.
 Keep it on for AI-generated or edited images, and switch it off only for genuine, unedited photos.
+
+### Design principles
+
+The main audience is 40–70+, often calling on behalf of a sick relative. Keep it that way:
+
+- The phone number is the primary action. It is visible on the first screen, in the header, and on mobile in a
+  fixed bar.
+- Body text is at least 18 px, and buttons and inputs are at least 56 px tall.
+- There are few sections, each with one job, written in short, plain sentences. No decorative filler.
+- The callback form asks for only a name and a phone number.
 
 ## Contact form setup
 
@@ -64,7 +73,7 @@ Keep it on for AI-generated or edited images, and switch it off only for genuine
 2. Paste it into `web3formsAccessKey` in `site.config.mjs`, then commit and push.
 
 Until a key is set, the form runs in preview mode: it validates input and shows an informational message
-instead of sending. Replies from the inbox go straight to the customer, because their email is set as Reply-To.
+instead of sending. Each submission arrives as an email with the customer's name, phone number and optional message.
 
 ## Deployment (GitHub Pages)
 

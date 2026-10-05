@@ -1,6 +1,6 @@
 ---
 import Send from '@lucide/astro/icons/send';
-import { company, contactServices } from '../data/company';
+import { company } from '../data/company';
 import { url } from '../lib/url';
 import { siteConfig } from '../../site.config.mjs';
 
@@ -18,21 +18,21 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
   novalidate
 >
   <input type="hidden" name="access_key" value={accessKey} />
-  <input type="hidden" name="subject" value={`Nowe zapytanie ze strony ${company.name}`} />
+  <input type="hidden" name="subject" value={`Prośba o kontakt ze strony ${company.name}`} />
   <input type="hidden" name="from_name" value={`Strona ${company.name}`} />
   <input type="hidden" name="redirect" value={redirect} />
   <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-  <h3 class="text-xl font-bold">Wyślij zapytanie</h3>
-  <p class="mt-1.5 text-sm text-slate-500">Oddzwonimy lub odpiszemy najszybciej, jak to możliwe.</p>
+  <h3 class="text-2xl font-bold">Wolisz, żebyśmy oddzwonili?</h3>
+  <p class="mt-2 text-lg text-slate-700">Zostaw numer telefonu, a zadzwonimy najszybciej, jak to możliwe.</p>
 
-  <div class="mt-6 grid gap-5 sm:grid-cols-2">
+  <div class="mt-6 space-y-5">
     <div>
-      <label for="cf-name" class="field-label">Imię i nazwisko <span class="text-brand-red-600">*</span></label>
+      <label for="cf-name" class="field-label">Imię i nazwisko</label>
       <input id="cf-name" name="name" type="text" class="field" autocomplete="name" required maxlength="100" />
     </div>
     <div>
-      <label for="cf-phone" class="field-label">Telefon <span class="text-brand-red-600">*</span></label>
+      <label for="cf-phone" class="field-label">Numer telefonu</label>
       <input
         id="cf-phone"
         name="Telefon"
@@ -42,33 +42,12 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
         inputmode="tel"
         required
         pattern="[\d\s\+\-\(\)]{9,20}"
-        placeholder="np. 600 100 200"
       />
     </div>
     <div>
-      <label for="cf-email" class="field-label">E-mail <span class="font-normal text-slate-500">(opcjonalnie)</span></label>
-      <input id="cf-email" name="email" type="email" class="field" autocomplete="email" maxlength="120" />
-    </div>
-    <div>
-      <label for="cf-service" class="field-label">Czego dotyczy zapytanie?</label>
-      <select id="cf-service" name="Usługa" class="field appearance-auto">
-        {contactServices.map((s) => <option value={s}>{s}</option>)}
-      </select>
-    </div>
-    <div>
-      <label for="cf-date" class="field-label">Preferowany termin <span class="font-normal text-slate-500">(opcjonalnie)</span></label>
-      <input id="cf-date" name="Termin" type="text" class="field" placeholder="np. 14.10, rano" maxlength="80" />
-    </div>
-    <div>
-      <label for="cf-route" class="field-label">Trasa <span class="font-normal text-slate-500">(opcjonalnie)</span></label>
-      <input id="cf-route" name="Trasa" type="text" class="field" placeholder="np. Bukowiec → Bydgoszcz" maxlength="160" />
-    </div>
-    <div class="sm:col-span-2">
-      <label for="cf-message" class="field-label">Wiadomość <span class="text-brand-red-600">*</span></label>
-      <textarea id="cf-message" name="Wiadomość" rows="5" class="field resize-y" required maxlength="2000"></textarea>
-      <p class="mt-2 text-xs text-slate-500">
-        Prosimy nie podawać w formularzu szczegółowych informacji o stanie zdrowia. Ustalimy je telefonicznie.
-      </p>
+      <label for="cf-message" class="field-label">W czym możemy pomóc? <span class="font-normal text-slate-600">(nieobowiązkowe)</span></label>
+      <textarea id="cf-message" name="Wiadomość" rows="3" class="field resize-y" maxlength="2000"></textarea>
+      <p class="mt-2 text-base text-slate-600">Prosimy nie wpisywać tu szczegółów o stanie zdrowia.</p>
     </div>
   </div>
 
@@ -79,24 +58,25 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
       type="checkbox"
       value="Tak"
       required
-      class="mt-0.5 size-5 shrink-0 rounded border-slate-300 accent-navy-700"
+      class="mt-0.5 size-6 shrink-0 accent-navy-700"
     />
-    <label for="cf-consent" class="text-sm leading-relaxed text-slate-600">
-      Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na zapytanie, zgodnie z
-      <a href={url('polityka-prywatnosci/')} class="font-medium text-navy-700 underline underline-offset-2">polityką prywatności</a>.
-      <span class="text-brand-red-600">*</span>
+    <label for="cf-consent" class="text-base leading-relaxed text-slate-700">
+      Zgadzam się na kontakt w sprawie mojego zapytania
+      (<a href={url('polityka-prywatnosci/')} class="font-medium text-navy-700 underline underline-offset-2">polityka prywatności</a>).
     </label>
   </div>
 
-  <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    <button type="submit" class="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto" disabled={!isLive} data-submit>
-      <Send class="size-[1.1rem]" aria-hidden="true" />
-      <span data-submit-label>Wyślij wiadomość</span>
-    </button>
-    <p class="text-xs text-slate-500"><span class="text-brand-red-600">*</span> pola wymagane</p>
-  </div>
+  <button
+    type="submit"
+    class="mt-6 inline-flex min-h-16 w-full items-center justify-center gap-3 rounded-2xl bg-navy-800 px-8 text-xl font-bold text-white transition hover:bg-navy-700 disabled:cursor-not-allowed disabled:opacity-60"
+    disabled={!isLive}
+    data-submit
+  >
+    <Send class="size-6" aria-hidden="true" />
+    <span data-submit-label>Poproś o telefon</span>
+  </button>
 
-  <div class="mt-5 hidden rounded-2xl px-4 py-3 text-sm" role="status" aria-live="polite" data-status></div>
+  <div class="mt-5 hidden rounded-2xl px-5 py-4 text-lg" role="status" aria-live="polite" data-status></div>
 </form>
 
 <script>
@@ -112,7 +92,7 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
     submit.disabled = false;
 
     const show = (kind: 'success' | 'error' | 'info', message: string) => {
-      status.className = 'mt-5 rounded-2xl px-4 py-3 text-sm';
+      status.className = 'mt-5 rounded-2xl px-5 py-4 text-lg';
       status.classList.add(
         ...{
           success: ['bg-emerald-50', 'text-emerald-900', 'ring-1', 'ring-emerald-200'],
@@ -153,12 +133,12 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
         if (!response.ok || !result.success) throw new Error(result.message);
 
         form.reset();
-        show('success', 'Dziękujemy! Wiadomość została wysłana. Skontaktujemy się najszybciej, jak to możliwe.');
+        show('success', 'Dziękujemy! Oddzwonimy najszybciej, jak to możliwe.');
       } catch {
         show('error', 'Nie udało się wysłać wiadomości. Spróbuj ponownie lub zadzwoń do nas.');
       } finally {
         submit.disabled = false;
-        label.textContent = 'Wyślij wiadomość';
+        label.textContent = 'Poproś o telefon';
       }
     });
   }

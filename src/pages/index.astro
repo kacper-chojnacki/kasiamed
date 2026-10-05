@@ -2,28 +2,18 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Ambulance from '@lucide/astro/icons/ambulance';
-import ArrowRight from '@lucide/astro/icons/arrow-right';
 import BriefcaseMedical from '@lucide/astro/icons/briefcase-medical';
 import Check from '@lucide/astro/icons/check';
 import Clock from '@lucide/astro/icons/clock';
-import ExternalLink from '@lucide/astro/icons/external-link';
-import HandHeart from '@lucide/astro/icons/hand-heart';
-import HeartPulse from '@lucide/astro/icons/heart-pulse';
-import Hospital from '@lucide/astro/icons/hospital';
 import Mail from '@lucide/astro/icons/mail';
 import MapPin from '@lucide/astro/icons/map-pin';
-import Navigation from '@lucide/astro/icons/navigation';
-import PartyPopper from '@lucide/astro/icons/party-popper';
 import Phone from '@lucide/astro/icons/phone';
-import ShieldCheck from '@lucide/astro/icons/shield-check';
 import Stethoscope from '@lucide/astro/icons/stethoscope';
-import Users from '@lucide/astro/icons/users';
 import ContactForm from '../components/ContactForm.astro';
 import Emblem from '../components/Emblem.astro';
 import Placeholder from '../components/Placeholder.astro';
 import Base from '../layouts/Base.astro';
 import {
-  audiences,
   company,
   faqs,
   fullAddress,
@@ -33,27 +23,20 @@ import {
   services,
   steps,
   telHref,
-  values,
 } from '../data/company';
-import { siteConfig } from '../../site.config.mjs';
 
 const serviceIcons = { ambulance: Ambulance, stethoscope: Stethoscope, 'first-aid': BriefcaseMedical } as const;
-const audienceIcons = [Users, Hospital, PartyPopper];
-const valueIcons = [ShieldCheck, Clock, HandHeart, HeartPulse];
 
 /** Photos dropped into src/assets/photos/ are picked up automatically by file name. */
 const photoFiles = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.{jpg,jpeg,png,webp}', { eager: true });
 const photo = (name: string) =>
   Object.entries(photoFiles).find(([path]) => path.split('/').pop()?.split('.')[0] === name)?.[1].default;
 
-const gallery = [
-  { name: 'ambulans', alt: 'Ambulans KASIA MED', hint: 'ambulans z zewnątrz' },
-  { name: 'wnetrze', alt: 'Wnętrze ambulansu przystosowane do przewozu pacjenta', hint: 'wnętrze ambulansu' },
-  { name: 'zespol', alt: 'Zabezpieczenie medyczne wydarzenia', hint: 'zespół lub zabezpieczenie wydarzenia' },
-].map((item) => ({ ...item, image: photo(item.name) }));
-// Preview builds show placeholders for missing photos; production shows only the photos that exist.
-const tiles = siteConfig.indexable ? gallery.filter((g) => g.image) : gallery;
-const featured = tiles.length === 3;
+const heroPhoto = photo('ambulans');
+const extraPhotos = [
+  { image: photo('wnetrze'), alt: 'Wnętrze ambulansu przystosowane do przewozu pacjenta' },
+  { image: photo('zespol'), alt: 'Zespół KASIA MED podczas zabezpieczenia wydarzenia' },
+].filter((p): p is { image: ImageMetadata; alt: string } => Boolean(p.image));
 
 const answerParts = (text: string) =>
   text.split(/(\{placeholder:[^}]+\})/).map((part) => {
@@ -63,138 +46,90 @@ const answerParts = (text: string) =>
 ---
 
 <Base>
-  <!-- Hero -->
-  <section class="relative overflow-hidden bg-gradient-to-b from-mist via-white to-white">
-    <div
-      class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgb(31_58_122/0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgb(31_58_122/0.05)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]"
-      aria-hidden="true"
-    >
-    </div>
-    <div class="pointer-events-none absolute -top-40 -right-40 size-[38rem] rounded-full bg-navy-200/40 blur-3xl" aria-hidden="true"></div>
-    <div class="pointer-events-none absolute top-1/2 -left-48 size-[28rem] rounded-full bg-brand-red-100/50 blur-3xl" aria-hidden="true"></div>
-
-    <div class="container-page relative grid items-center gap-14 pt-14 pb-20 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:pt-20 lg:pb-28">
+  <!-- Hero: what we do, the phone number and the ambulance. Nothing else competes for attention. -->
+  <section class="bg-gradient-to-b from-mist to-white">
+    <div class="container-page grid items-center gap-10 pt-10 pb-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-14 lg:pb-16">
       <div>
-        <p class="inline-flex items-center gap-2.5 rounded-full bg-white px-4 py-2 text-sm font-medium text-navy-800 ring-1 ring-navy-100 shadow-sm">
-          <span class="pulse-dot size-2.5 rounded-full bg-emerald-500"></span>
-          Dyspozytornia czynna całą dobę
-        </p>
-        <h1 class="mt-7 text-[2.6rem] leading-[1.05] font-extrabold sm:text-6xl lg:text-[4.1rem]">
-          Twoje zdrowie,<br />
-          <span class="text-navy-700">nasz </span><span class="relative whitespace-nowrap text-brand-red-600">
-            priorytet.
-            <svg class="absolute -bottom-2 left-0 h-3 w-full text-brand-red-600/30" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M0 8 H70 L78 2 L86 11 L94 4 L100 8 H200" fill="none" stroke="currentColor" stroke-width="2.5" vector-effect="non-scaling-stroke" />
-            </svg>
-          </span>
+        <p class="text-lg font-semibold text-brand-red-600">{company.address.city} · woj. {company.address.region}</p>
+        <h1 class="mt-3 text-[2.4rem] leading-[1.1] font-extrabold sm:text-5xl lg:text-[3.6rem]">
+          Transport sanitarny i&nbsp;opieka medyczna
         </h1>
-        <p class="mt-7 max-w-xl text-lg leading-relaxed text-slate-600 sm:text-xl">
-          Profesjonalny transport sanitarny, kompleksowa opieka medyczna i zabezpieczenie medyczne wydarzeń.
-          Bezpiecznie, punktualnie i z troską o każdego pacjenta.
+        <p class="mt-5 max-w-xl text-xl leading-relaxed text-slate-700">
+          Przewóz pacjentów ambulansem, opieka nad chorymi i zabezpieczenie medyczne imprez.
         </p>
-        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a href={telHref} class="btn-primary !min-h-14 !px-7 text-base">
-            <Phone class="size-5" aria-hidden="true" />
-            Zadzwoń: {company.phone.display}
+
+        <div class="mt-8">
+          <a
+            href={telHref}
+            class="inline-flex min-h-16 w-full items-center justify-center gap-3 rounded-2xl bg-brand-red-600 px-8 text-2xl font-bold text-white shadow-[0_12px_30px_-10px_rgb(198_40_40/0.7)] transition hover:bg-brand-red-700 sm:w-auto sm:text-[1.7rem]"
+          >
+            <Phone class="size-7" aria-hidden="true" />
+            {company.phone.display}
           </a>
-          <a href="#kontakt" class="btn-secondary !min-h-14 !px-7 text-base">
-            Wyślij zapytanie
-            <ArrowRight class="size-5" aria-hidden="true" />
-          </a>
+          <p class="mt-3 flex items-start gap-2 text-lg text-slate-700">
+            <Clock class="mt-1 size-5 shrink-0 text-emerald-600" aria-hidden="true" />
+            <span>Odbieramy <strong class="font-semibold text-navy-900">całą dobę, 7 dni w tygodniu</strong></span>
+          </p>
         </div>
-        <dl class="mt-12 grid max-w-xl grid-cols-2 gap-6 sm:grid-cols-3 border-t border-navy-100 pt-8">
-          <div>
-            <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">Dyspozytornia</dt>
-            <dd class="mt-1 font-display text-2xl font-extrabold text-navy-900">24/7</dd>
-          </div>
-          <div>
-            <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">Wycena</dt>
-            <dd class="mt-1 font-display text-2xl font-extrabold text-navy-900">Indywidualna</dd>
-          </div>
-          <div>
-            <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">Biuro</dt>
-            <dd class="mt-1 font-display text-2xl font-extrabold text-navy-900">{company.address.city}</dd>
-          </div>
-        </dl>
+
+        <ul class="mt-8 space-y-3 text-lg text-navy-900">
+          <li class="flex items-start gap-3">
+            <Check class="mt-0.5 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
+            Cenę podajemy przez telefon, przed przejazdem
+          </li>
+          <li class="flex items-start gap-3">
+            <Check class="mt-0.5 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
+            Biuro: {fullAddress}
+          </li>
+        </ul>
       </div>
 
-      <div class="relative mx-auto w-full max-w-[18rem] sm:max-w-md lg:max-w-none">
-        <div class="relative mx-auto aspect-square w-full max-w-[28rem]">
-          <div class="absolute inset-[6%] rounded-full bg-white shadow-[0_40px_100px_-30px_rgb(15_31_69/0.35)] ring-1 ring-navy-100"></div>
-          <svg class="absolute inset-x-[-12%] top-1/2 h-24 w-[124%] -translate-y-1/2 text-brand-red-600/25" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true">
-            <path
-              class="ecg-draw"
-              pathLength="1"
-              d="M0 50 H170 L190 50 L200 30 L212 80 L226 8 L240 92 L252 50 H600"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linejoin="round"
-              vector-effect="non-scaling-stroke"
-            />
-          </svg>
-          <div class="absolute inset-[9%]">
-            <Emblem />
-          </div>
-
-          <div class="card absolute bottom-[3%] -left-3 hidden sm:flex items-center gap-3 !rounded-2xl px-4 py-3 sm:-left-8">
-            <span class="grid size-10 place-items-center rounded-xl bg-brand-red-50 text-brand-red-600">
-              <Phone class="size-5" aria-hidden="true" />
-            </span>
-            <span class="leading-tight">
-              <span class="block text-xs text-slate-500">Całodobowa dyspozytornia</span>
-              <a href={telHref} class="font-display text-lg font-bold text-navy-900">{company.phone.display}</a>
-            </span>
-          </div>
-          <div class="card absolute top-[3%] -right-3 hidden sm:flex items-center gap-3 !rounded-2xl px-4 py-3 sm:-right-6">
-            <span class="grid size-10 place-items-center rounded-xl bg-navy-50 text-navy-700">
-              <MapPin class="size-5" aria-hidden="true" />
-            </span>
-            <span class="leading-tight">
-              <span class="block text-xs text-slate-500">Biuro</span>
-              <span class="font-display font-bold text-navy-900">{company.address.city}</span>
-            </span>
-          </div>
-        </div>
+      <div>
+        {
+          heroPhoto ? (
+            <figure class="relative overflow-hidden rounded-3xl shadow-[0_30px_70px_-30px_rgb(15_31_69/0.45)]">
+              <Image
+                src={heroPhoto}
+                alt={`Ambulans ${company.name}`}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 1024px) 600px, 100vw"
+                loading="eager"
+                fetchpriority="high"
+                class="aspect-[16/11] w-full object-cover object-[center_40%]"
+              />
+              {photosAreIllustrative && (
+                <figcaption class="absolute bottom-3 left-3 rounded-full bg-navy-950/75 px-3 py-1 text-sm text-white">
+                  Zdjęcie poglądowe
+                </figcaption>
+              )}
+            </figure>
+          ) : (
+            <Emblem class="mx-auto w-full max-w-sm" />
+          )
+        }
       </div>
     </div>
   </section>
 
   <!-- Services -->
-  <section id="uslugi" class="scroll-mt-24 py-20 lg:py-28">
+  <section id="uslugi" class="scroll-mt-24 py-16 lg:py-20">
     <div class="container-page">
-      <div class="max-w-2xl">
-        <p class="eyebrow">Nasze usługi</p>
-        <h2 class="mt-4 text-3xl font-extrabold sm:text-[2.6rem] sm:leading-tight">Kompleksowe wsparcie medyczne w jednym miejscu</h2>
-        <p class="mt-5 text-lg leading-relaxed text-slate-600">
-          Od bezpiecznego przewozu pacjenta, przez opiekę medyczną, po zabezpieczenie wydarzeń. Jeden telefon wystarczy,
-          żeby wszystko zorganizować.
-        </p>
-      </div>
-
-      <div class="mt-14 grid gap-6 lg:grid-cols-3">
+      <h2 class="text-3xl font-extrabold sm:text-4xl">W czym pomagamy</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
         {
-          services.map((service, index) => {
-            const Icon = serviceIcons[service.icon as keyof typeof serviceIcons];
+          services.map((service) => {
+            const Icon = serviceIcons[service.icon];
             return (
-              <article id={service.id} class="card group relative flex scroll-mt-28 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgb(15_31_69/0.25)]">
-                <span class="absolute top-0 left-8 h-1 w-16 rounded-b-full bg-gradient-to-r from-navy-700 to-brand-red-600" aria-hidden="true" />
-                <div class="flex items-center justify-between">
-                  <span class="grid size-14 place-items-center rounded-2xl bg-navy-50 text-navy-700 ring-1 ring-navy-100 transition group-hover:bg-navy-700 group-hover:text-white">
-                    <Icon class="size-7" aria-hidden="true" />
-                  </span>
-                  <svg class="h-10 w-16 text-navy-100" viewBox="0 0 64 40" aria-hidden="true">
-                    <text x="64" y="36" text-anchor="end" fill="currentColor" font-size="46" font-weight="800" letter-spacing="-2">
-                      0{index + 1}
-                    </text>
-                  </svg>
-                </div>
-                <h3 class="mt-7 text-xl font-bold">{service.title}</h3>
-                <p class="mt-3 leading-relaxed text-slate-600">{service.lead}</p>
-                <ul class="mt-6 space-y-3 border-t border-slate-100 pt-6">
+              <article id={service.id} class="card scroll-mt-28 p-7 sm:p-8">
+                <span class="grid size-14 place-items-center rounded-2xl bg-navy-50 text-navy-700">
+                  <Icon class="size-8" aria-hidden="true" />
+                </span>
+                <h3 class="mt-5 text-2xl font-bold">{service.title}</h3>
+                <p class="mt-2 text-lg text-slate-700">{service.lead}</p>
+                <ul class="mt-5 space-y-3">
                   {service.items.map((item) => (
-                    <li class="flex gap-3 text-[0.95rem]">
-                      <Check class="mt-0.5 size-5 shrink-0 text-brand-red-600" aria-hidden="true" />
+                    <li class="flex gap-3 text-lg">
+                      <Check class="mt-1 size-5 shrink-0 text-brand-red-600" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -207,196 +142,77 @@ const answerParts = (text: string) =>
     </div>
   </section>
 
-  <!-- Audiences -->
-  <section class="bg-mist py-20 lg:py-24">
-    <div class="container-page grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-16">
-      <div>
-        <p class="eyebrow">Dla kogo</p>
-        <h2 class="mt-4 text-3xl font-extrabold sm:text-4xl">Pomagamy pacjentom, rodzinom i instytucjom</h2>
-        <p class="mt-5 leading-relaxed text-slate-600">
-          Każde zlecenie traktujemy indywidualnie, niezależnie od tego, czy chodzi o jeden przejazd, stałą opiekę czy
-          całodniowe wydarzenie.
-        </p>
-      </div>
-      <div class="grid gap-5 sm:grid-cols-3">
-        {
-          audiences.map((audience, index) => {
-            const Icon = audienceIcons[index];
-            return (
-              <div class="rounded-3xl bg-white p-7 ring-1 ring-slate-900/5">
-                <Icon class="size-7 text-brand-red-600" aria-hidden="true" />
-                <h3 class="mt-5 text-lg font-bold">{audience.title}</h3>
-                <p class="mt-2 text-[0.95rem] leading-relaxed text-slate-600">{audience.text}</p>
-              </div>
-            );
-          })
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section id="jak-dzialamy" class="relative scroll-mt-24 overflow-hidden bg-navy-900 py-20 text-navy-100 lg:py-28">
-    <svg class="pointer-events-none absolute inset-x-0 top-1/2 h-40 w-full -translate-y-1/2 text-white/[0.05]" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 80 H520 L545 80 L560 40 L578 130 L598 10 L618 150 L634 80 H1200" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" />
-    </svg>
-    <div class="container-page relative">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="eyebrow !text-red-300">Jak działamy</p>
-        <h2 class="mt-4 text-3xl font-extrabold !text-white sm:text-[2.6rem] sm:leading-tight">Prosto, szybko i bez stresu</h2>
-        <p class="mt-5 text-lg text-navy-200">Wiemy, że w sprawach zdrowia liczy się czas. Dlatego cały proces ograniczamy do minimum.</p>
-      </div>
-      <ol class="mt-16 grid gap-6 md:grid-cols-3">
+  <!-- How to order -->
+  <section id="jak-zamowic" class="scroll-mt-24 bg-navy-900 py-16 text-white lg:py-20">
+    <div class="container-page">
+      <h2 class="text-3xl font-extrabold !text-white sm:text-4xl">Jak zamówić?</h2>
+      <ol class="mt-10 grid gap-8 md:grid-cols-3">
         {
           steps.map((step, index) => (
-            <li class="relative rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10 backdrop-blur">
-              <span class="grid size-12 place-items-center rounded-full bg-brand-red-600 font-display text-lg font-bold text-white shadow-lg shadow-brand-red-600/30">
-                {index + 1}
-              </span>
-              <h3 class="mt-6 text-xl font-bold !text-white">{step.title}</h3>
-              <p class="mt-3 leading-relaxed text-navy-200">{step.text}</p>
+            <li class="flex gap-5">
+              <span class="grid size-14 shrink-0 place-items-center rounded-full bg-brand-red-600 text-2xl font-bold">{index + 1}</span>
+              <div>
+                <h3 class="text-2xl font-bold !text-white">{step.title}</h3>
+                <p class="mt-1 text-lg text-navy-100">{step.text}</p>
+              </div>
             </li>
           ))
         }
       </ol>
-      <div class="mt-14 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a href={telHref} class="btn-primary !min-h-14 !px-7 text-base">
-          <Phone class="size-5" aria-hidden="true" />
-          {company.phone.display}
-        </a>
-        <a href="#kontakt" class="btn-ghost-light !min-h-14 !px-7 text-base">Napisz do nas</a>
-      </div>
+      <a
+        href={telHref}
+        class="mt-12 inline-flex min-h-16 w-full items-center justify-center gap-3 rounded-2xl bg-white px-8 text-2xl font-bold text-brand-red-700 transition hover:bg-navy-50 sm:w-auto"
+      >
+        <Phone class="size-7" aria-hidden="true" />
+        {company.phone.display}
+      </a>
     </div>
   </section>
 
   <!-- About -->
-  <section id="o-nas" class="scroll-mt-24 py-20 lg:py-28">
-    <div class="container-page grid gap-14 lg:grid-cols-2 lg:gap-20">
-      <div>
-        <p class="eyebrow">O nas</p>
-        <h2 class="mt-4 text-3xl font-extrabold sm:text-[2.6rem] sm:leading-tight">Opieka, na której możesz polegać</h2>
-        <div class="mt-6 space-y-5 text-lg leading-relaxed text-slate-600">
-          <p>
-            {company.name} to firma medyczna z siedzibą w miejscowości {company.address.city} (woj. {company.address.region}).
-            Zajmujemy się transportem sanitarnym, opieką medyczną oraz zabezpieczeniem medycznym wydarzeń.
-          </p>
-          <p>
-            Naszym priorytetem jest bezpieczeństwo i komfort pacjentów oraz spokój ich bliskich. Do każdego zlecenia
-            podchodzimy z zaangażowaniem, empatią i pełnym profesjonalizmem.
-          </p>
-          <p><Placeholder label="historia firmy, doświadczenie i kwalifikacje zespołu, flota" /></p>
-        </div>
+  <section id="o-nas" class="scroll-mt-24 py-16 lg:py-20">
+    <div class="container-page max-w-4xl">
+      <h2 class="text-3xl font-extrabold sm:text-4xl">O nas</h2>
+      <div class="mt-6 space-y-5 text-xl leading-relaxed text-slate-700">
+        <p>
+          {company.name} to firma z miejscowości {company.address.city}. Zajmujemy się transportem sanitarnym,
+          opieką medyczną i zabezpieczeniem medycznym imprez. Najważniejsze są dla nas bezpieczeństwo pacjenta
+          i spokój jego bliskich.
+        </p>
+        <p><Placeholder label="kilka zdań o firmie: od kiedy działa, kto jest w zespole, jakie ma pojazdy" /></p>
       </div>
-      <div class="grid gap-5 sm:grid-cols-2">
-        {
-          values.map((value, index) => {
-            const Icon = valueIcons[index];
-            return (
-              <div class="card p-7">
-                <span class="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-navy-700 to-navy-900 text-white shadow-lg shadow-navy-900/20">
-                  <Icon class="size-6" aria-hidden="true" />
-                </span>
-                <h3 class="mt-5 text-lg font-bold">{value.title}</h3>
-                <p class="mt-2 text-[0.95rem] leading-relaxed text-slate-600">{value.text}</p>
-              </div>
-            );
-          })
-        }
-      </div>
-    </div>
-
-    {
-      tiles.length > 0 && (
-        <div class="container-page mt-20">
-          <div
-            class:list={[
-              'grid gap-5',
-              featured && 'md:grid-cols-3 md:grid-rows-2',
-              tiles.length === 2 && 'md:grid-cols-2',
-            ]}
-          >
-            {tiles.map((item, index) =>
-              item.image ? (
-                <figure class:list={['relative overflow-hidden rounded-3xl', featured && index === 0 && 'md:col-span-2 md:row-span-2']}>
-                  <Image
-                    src={item.image}
-                    alt={item.alt}
-                    widths={[480, 800, 1200, 1600]}
-                    sizes={tiles.length === 1 ? '(min-width: 1280px) 1216px, 100vw' : featured && index === 0 ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 50vw, 100vw'}
-                    class:list={[
-                      'aspect-[4/3] h-full w-full object-cover object-[center_35%]',
-                      featured && index === 0 && 'md:aspect-auto',
-                      tiles.length === 1 && 'md:aspect-[16/9]',
-                    ]}
-                  />
-                  {photosAreIllustrative && (
-                    <figcaption class="absolute bottom-3 left-3 rounded-full bg-navy-950/75 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-                      Zdjęcie poglądowe
-                    </figcaption>
-                  )}
-                </figure>
-              ) : (
-                <div
-                  class:list={[
-                    'grid aspect-[4/3] place-items-center rounded-3xl border-2 border-dashed border-navy-200 bg-mist p-6 text-center',
-                    featured && index === 0 && 'md:col-span-2 md:row-span-2 md:aspect-auto',
-                  ]}
-                >
-                  <div>
-                    <Ambulance class="mx-auto size-10 text-navy-300" aria-hidden="true" />
-                    <p class="mt-3 text-sm font-medium text-navy-700">Miejsce na zdjęcie: {item.hint}</p>
-                    <p class="mt-1 text-xs text-slate-600">widoczne tylko w wersji podglądowej</p>
-                  </div>
-                </div>
-              ),
-            )}
+      {
+        extraPhotos.length > 0 && (
+          <div class:list={['mt-10 grid gap-5', extraPhotos.length === 2 && 'sm:grid-cols-2']}>
+            {extraPhotos.map((p) => (
+              <figure class="relative overflow-hidden rounded-3xl">
+                <Image src={p.image} alt={p.alt} widths={[480, 800, 1200]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-[4/3] w-full object-cover" />
+                {photosAreIllustrative && (
+                  <figcaption class="absolute bottom-3 left-3 rounded-full bg-navy-950/75 px-3 py-1 text-sm text-white">Zdjęcie poglądowe</figcaption>
+                )}
+              </figure>
+            ))}
           </div>
-        </div>
-      )
-    }
-  </section>
-
-  <!-- CTA band -->
-  <section class="container-page">
-    <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-red-600 to-brand-red-700 px-8 py-12 text-white sm:px-14 sm:py-14">
-      <svg class="pointer-events-none absolute inset-0 h-full w-full text-white/10" viewBox="0 0 800 200" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 120 H360 L380 120 L392 70 L408 170 L426 30 L444 190 L458 120 H800" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" />
-      </svg>
-      <div class="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-        <div>
-          <h2 class="text-3xl font-extrabold !text-white sm:text-4xl">Potrzebujesz transportu lub opieki?</h2>
-          <p class="mt-3 max-w-xl text-lg text-white/85">Zadzwoń do naszej dyspozytorni. Odbieramy całą dobę, 7 dni w tygodniu.</p>
-        </div>
-        <a href={telHref} class="btn !min-h-16 shrink-0 bg-white !px-8 text-lg text-brand-red-700 shadow-xl hover:-translate-y-0.5">
-          <Phone class="size-6" aria-hidden="true" />
-          {company.phone.display}
-        </a>
-      </div>
+        )
+      }
     </div>
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="scroll-mt-24 py-20 lg:py-28">
-    <div class="container-page grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
-      <div>
-        <p class="eyebrow">FAQ</p>
-        <h2 class="mt-4 text-3xl font-extrabold sm:text-[2.6rem] sm:leading-tight">Najczęściej zadawane pytania</h2>
-        <p class="mt-5 leading-relaxed text-slate-600">
-          Nie znalazłeś odpowiedzi? Zadzwoń pod numer
-          <a href={telHref} class="font-semibold whitespace-nowrap text-navy-700 hover:underline">{company.phone.display}</a>, a chętnie pomożemy.
-        </p>
-      </div>
-      <div class="divide-y divide-slate-200 border-y border-slate-200">
+  <section id="pytania" class="scroll-mt-24 bg-mist py-16 lg:py-20">
+    <div class="container-page max-w-4xl">
+      <h2 class="text-3xl font-extrabold sm:text-4xl">Częste pytania</h2>
+      <div class="mt-8 space-y-4">
         {
           faqs.map((faq) => (
-            <details class="group py-2 [&_summary::-webkit-details-marker]:hidden">
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 rounded-xl py-4 text-left font-display text-lg font-semibold text-navy-900">
+            <details class="group rounded-2xl bg-white ring-1 ring-slate-200 [&_summary::-webkit-details-marker]:hidden">
+              <summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 px-6 py-4 text-xl font-semibold text-navy-900">
                 {faq.q}
-                <span class="grid size-8 shrink-0 place-items-center rounded-full bg-navy-50 text-navy-700 transition group-open:rotate-45 group-open:bg-navy-700 group-open:text-white" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+                <span class="grid size-9 shrink-0 place-items-center rounded-full bg-navy-50 text-navy-700 transition group-open:rotate-45" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
                 </span>
               </summary>
-              <p class="pr-12 pb-5 leading-relaxed text-slate-600">
+              <p class="px-6 pb-6 text-lg leading-relaxed text-slate-700">
                 {answerParts(faq.a).map((part) => ('placeholder' in part ? <Placeholder label={part.placeholder!} /> : part.text))}
               </p>
             </details>
@@ -407,72 +223,52 @@ const answerParts = (text: string) =>
   </section>
 
   <!-- Contact -->
-  <section id="kontakt" class="scroll-mt-24 bg-mist py-20 lg:py-28">
+  <section id="kontakt" class="scroll-mt-24 py-16 lg:py-20">
     <div class="container-page">
-      <div class="max-w-2xl">
-        <p class="eyebrow">Kontakt</p>
-        <h2 class="mt-4 text-3xl font-extrabold sm:text-[2.6rem] sm:leading-tight">Skontaktuj się z nami</h2>
-        <p class="mt-5 text-lg leading-relaxed text-slate-600">
-          W pilnych sprawach najlepiej zadzwonić. W pozostałych możesz napisać, a odpowiemy najszybciej, jak to możliwe.
-        </p>
-      </div>
-
-      <div class="mt-14 grid gap-8 lg:grid-cols-[1fr_1.35fr]">
-        <div class="flex flex-col gap-5">
-          <a href={telHref} class="group relative overflow-hidden rounded-3xl bg-navy-800 p-7 text-white shadow-xl shadow-navy-900/20 transition hover:bg-navy-700">
-            <span class="flex items-center gap-2 text-sm text-navy-200">
-              <span class="pulse-dot size-2 rounded-full bg-emerald-400"></span>
-              Całodobowa dyspozytornia
-            </span>
-            <span class="mt-3 flex items-center gap-3 font-display text-3xl font-extrabold sm:text-4xl">
-              <Phone class="size-8 text-brand-red-500" aria-hidden="true" />
+      <h2 class="text-3xl font-extrabold sm:text-4xl">Kontakt</h2>
+      <div class="mt-10 grid gap-8 lg:grid-cols-2">
+        <div class="space-y-8">
+          <a href={telHref} class="block rounded-3xl bg-navy-800 p-7 text-white transition hover:bg-navy-700 sm:p-8">
+            <span class="text-lg text-navy-100">Telefon, całą dobę</span>
+            <span class="mt-2 flex items-center gap-3 text-4xl font-extrabold sm:text-5xl">
+              <Phone class="size-9 shrink-0 text-red-300" aria-hidden="true" />
               {company.phone.display}
             </span>
-            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-navy-100 group-hover:gap-2.5 transition-all">
-              Zadzwoń teraz <ArrowRight class="size-4" aria-hidden="true" />
-            </span>
           </a>
-
-          <div class="card divide-y divide-slate-100">
-            <div class="flex gap-4 p-6">
-              <Mail class="mt-0.5 size-5 shrink-0 text-brand-red-600" aria-hidden="true" />
+          <ul class="space-y-6 text-lg">
+            <li class="flex gap-4">
+              <MapPin class="mt-1 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
               <div>
-                <p class="text-sm text-slate-500">E-mail</p>
-                {mailHref ? <a href={mailHref} class="font-semibold text-navy-900 hover:underline">{company.email}</a> : <Placeholder label="adres e-mail" />}
-              </div>
-            </div>
-            <div class="flex gap-4 p-6">
-              <MapPin class="mt-0.5 size-5 shrink-0 text-brand-red-600" aria-hidden="true" />
-              <div>
-                <p class="text-sm text-slate-500">Adres biura</p>
+                <p class="text-slate-600">Adres biura</p>
                 <p class="font-semibold text-navy-900">{fullAddress}</p>
-                <p class="text-sm text-slate-500">woj. {company.address.region}</p>
-                <div class="mt-3 flex flex-wrap gap-2">
-                  <a href={mapsHref} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-full bg-navy-50 px-3.5 py-1.5 text-sm font-medium text-navy-800 hover:bg-navy-100">
-                    <Navigation class="size-4" aria-hidden="true" />
-                    Pokaż na mapie
-                    <ExternalLink class="size-3.5 opacity-60" aria-hidden="true" />
-                    <span class="sr-only">(otwiera się w nowej karcie)</span>
-                  </a>
-                </div>
+                <a href={mapsHref} target="_blank" rel="noopener noreferrer" class="mt-1 inline-block font-medium text-navy-700 underline underline-offset-4">
+                  Pokaż na mapie<span class="sr-only"> (otwiera się w nowej karcie)</span>
+                </a>
               </div>
-            </div>
-            <div class="flex gap-4 p-6">
-              <Clock class="mt-0.5 size-5 shrink-0 text-brand-red-600" aria-hidden="true" />
+            </li>
+            <li class="flex gap-4">
+              <Mail class="mt-1 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
               <div>
-                <p class="text-sm text-slate-500">Godziny</p>
-                <p class="font-semibold text-navy-900">Dyspozytornia: {company.dispatchHours.toLowerCase()}</p>
-                <p class="text-sm text-slate-600">Biuro: {company.officeHours ?? <Placeholder label="godziny biura" />}</p>
+                <p class="text-slate-600">E-mail</p>
+                {mailHref ? <a href={mailHref} class="font-semibold text-navy-900 underline underline-offset-4">{company.email}</a> : <Placeholder label="adres e-mail" />}
               </div>
-            </div>
-            <div class="flex gap-4 p-6">
-              <Ambulance class="mt-0.5 size-5 shrink-0 text-brand-red-600" aria-hidden="true" />
+            </li>
+            <li class="flex gap-4">
+              <Clock class="mt-1 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
               <div>
-                <p class="text-sm text-slate-500">Obszar działania</p>
+                <p class="text-slate-600">Godziny</p>
+                <p class="font-semibold text-navy-900">Telefon: całą dobę</p>
+                <p>Biuro: {company.officeHours ?? <Placeholder label="godziny biura" />}</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <Ambulance class="mt-1 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
+              <div>
+                <p class="text-slate-600">Obszar działania</p>
                 <p class="font-semibold text-navy-900">{company.serviceArea ?? <Placeholder label="obszar działania" />}</p>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
 
         <ContactForm />
