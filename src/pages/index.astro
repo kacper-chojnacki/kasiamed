@@ -29,6 +29,7 @@ import {
   fullAddress,
   mailHref,
   mapsHref,
+  photosAreIllustrative,
   services,
   steps,
   telHref,
@@ -47,8 +48,8 @@ const photo = (name: string) =>
 
 const gallery = [
   { name: 'ambulans', alt: 'Ambulans KASIA MED', hint: 'ambulans z zewnątrz' },
-  { name: 'wnetrze', alt: 'Wnętrze ambulansu KASIA MED', hint: 'wnętrze ambulansu' },
-  { name: 'zespol', alt: 'Zespół KASIA MED', hint: 'zespół lub zabezpieczenie wydarzenia' },
+  { name: 'wnetrze', alt: 'Wnętrze ambulansu przystosowane do przewozu pacjenta', hint: 'wnętrze ambulansu' },
+  { name: 'zespol', alt: 'Zabezpieczenie medyczne wydarzenia', hint: 'zespół lub zabezpieczenie wydarzenia' },
 ].map((item) => ({ ...item, image: photo(item.name) }));
 const showGallery = gallery.some((g) => g.image) || !siteConfig.indexable;
 
@@ -308,13 +309,20 @@ const answerParts = (text: string) =>
           <div class="grid gap-5 md:grid-cols-3 md:grid-rows-2">
             {gallery.map((item, index) =>
               item.image ? (
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  widths={[480, 800, 1200]}
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  class:list={['aspect-[4/3] h-full w-full rounded-3xl object-cover', index === 0 && 'md:col-span-2 md:row-span-2 md:aspect-auto']}
-                />
+                <figure class:list={['relative overflow-hidden rounded-3xl', index === 0 && 'md:col-span-2 md:row-span-2']}>
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    widths={[480, 800, 1200, 1600]}
+                    sizes={index === 0 ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'}
+                    class:list={['aspect-[4/3] h-full w-full object-cover', index === 0 && 'md:aspect-auto']}
+                  />
+                  {photosAreIllustrative && (
+                    <figcaption class="absolute bottom-3 left-3 rounded-full bg-navy-950/75 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+                      Zdjęcie poglądowe
+                    </figcaption>
+                  )}
+                </figure>
               ) : (
                 <div
                   class:list={[

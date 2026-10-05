@@ -164,6 +164,12 @@ export const faqs: Faq[] = [
   },
 ];
 
+/**
+ * Set to true while the gallery uses AI-generated or otherwise illustrative images:
+ * each photo then gets a visible "Zdjęcie poglądowe" label (EU AI Act transparency, no misleading advertising).
+ */
+export const photosAreIllustrative = true;
+
 export const contactServices = [
   'Transport sanitarny',
   'Opieka medyczna',

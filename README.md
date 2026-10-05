@@ -54,7 +54,9 @@ to responsive WebP automatically at build time:
 | `zespol.*` | Team or event coverage |
 
 Without photos, the preview build shows dashed placeholders. With `indexable: true`, an empty gallery is hidden.
-Blur number plates and anyone who has not agreed to be shown. Label AI-generated images as illustrative.
+Blur number plates and anyone who has not agreed to be shown. While `photosAreIllustrative` in
+`src/data/company.ts` is `true`, every photo carries a visible "Zdjęcie poglądowe" (illustrative image) label.
+Keep it on for AI-generated or edited images, and switch it off only for genuine, unedited photos.
 
 ## Contact form setup
 
