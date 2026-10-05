@@ -51,7 +51,9 @@ const gallery = [
   { name: 'wnetrze', alt: 'Wnętrze ambulansu przystosowane do przewozu pacjenta', hint: 'wnętrze ambulansu' },
   { name: 'zespol', alt: 'Zabezpieczenie medyczne wydarzenia', hint: 'zespół lub zabezpieczenie wydarzenia' },
 ].map((item) => ({ ...item, image: photo(item.name) }));
-const showGallery = gallery.some((g) => g.image) || !siteConfig.indexable;
+// Preview builds show placeholders for missing photos; production shows only the photos that exist.
+const tiles = siteConfig.indexable ? gallery.filter((g) => g.image) : gallery;
+const featured = tiles.length === 3;
 
 const answerParts = (text: string) =>
   text.split(/(\{placeholder:[^}]+\})/).map((part) => {
@@ -304,18 +306,28 @@ const answerParts = (text: string) =>
     </div>
 
     {
-      showGallery && (
+      tiles.length > 0 && (
         <div class="container-page mt-20">
-          <div class="grid gap-5 md:grid-cols-3 md:grid-rows-2">
-            {gallery.map((item, index) =>
+          <div
+            class:list={[
+              'grid gap-5',
+              featured && 'md:grid-cols-3 md:grid-rows-2',
+              tiles.length === 2 && 'md:grid-cols-2',
+            ]}
+          >
+            {tiles.map((item, index) =>
               item.image ? (
-                <figure class:list={['relative overflow-hidden rounded-3xl', index === 0 && 'md:col-span-2 md:row-span-2']}>
+                <figure class:list={['relative overflow-hidden rounded-3xl', featured && index === 0 && 'md:col-span-2 md:row-span-2']}>
                   <Image
                     src={item.image}
                     alt={item.alt}
                     widths={[480, 800, 1200, 1600]}
-                    sizes={index === 0 ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'}
-                    class:list={['aspect-[4/3] h-full w-full object-cover', index === 0 && 'md:aspect-auto']}
+                    sizes={tiles.length === 1 ? '(min-width: 1280px) 1216px, 100vw' : featured && index === 0 ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 50vw, 100vw'}
+                    class:list={[
+                      'aspect-[4/3] h-full w-full object-cover object-[center_35%]',
+                      featured && index === 0 && 'md:aspect-auto',
+                      tiles.length === 1 && 'md:aspect-[16/9]',
+                    ]}
                   />
                   {photosAreIllustrative && (
                     <figcaption class="absolute bottom-3 left-3 rounded-full bg-navy-950/75 px-3 py-1 text-xs font-medium text-white backdrop-blur">
@@ -327,7 +339,7 @@ const answerParts = (text: string) =>
                 <div
                   class:list={[
                     'grid aspect-[4/3] place-items-center rounded-3xl border-2 border-dashed border-navy-200 bg-mist p-6 text-center',
-                    index === 0 && 'md:col-span-2 md:row-span-2 md:aspect-auto',
+                    featured && index === 0 && 'md:col-span-2 md:row-span-2 md:aspect-auto',
                   ]}
                 >
                   <div>
