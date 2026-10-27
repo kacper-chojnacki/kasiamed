@@ -39,8 +39,8 @@ const photo = (name: string) =>
 
 const heroPhoto = photo('ambulans');
 const extraPhotos = [
-  { image: photo('ambulans-vw'), alt: 'Ambulans Volkswagen T5', portrait: true },
-  { image: photo('ambulans-renault'), alt: 'Ambulans Renault Trafic', portrait: true },
+  { image: photo('ambulans-vw'), alt: 'Ambulans Volkswagen T5', portrait: false },
+  { image: photo('ambulans-renault'), alt: 'Ambulans Renault Trafic', portrait: false },
   { image: photo('wnetrze'), alt: 'Wnętrze ambulansu przystosowane do przewozu pacjenta', portrait: false },
   { image: photo('zespol'), alt: 'Zespół KASIA MED podczas zabezpieczenia wydarzenia', portrait: false },
 ].filter((p): p is { image: ImageMetadata; alt: string; portrait: boolean } => Boolean(p.image));
@@ -106,7 +106,7 @@ const answerParts = (text: string) =>
                 sizes="(min-width: 1024px) 600px, 100vw"
                 loading="eager"
                 fetchpriority="high"
-                class="aspect-[16/11] w-full object-cover object-[center_75%]"
+                class="aspect-[16/11] w-full object-cover"
               />
               {photosAreIllustrative && (
                 <figcaption class="absolute bottom-3 left-3 rounded-full bg-navy-950/75 px-3 py-1 text-sm text-white">
@@ -223,7 +223,7 @@ const answerParts = (text: string) =>
 
       {
         extraPhotos.length > 0 && (
-          <div class:list={['mt-10 grid max-w-3xl gap-5', extraPhotos.length >= 2 && 'sm:grid-cols-2']}>
+          <div class:list={['mt-10 grid gap-5', extraPhotos.length >= 2 && 'sm:grid-cols-2']}>
             {extraPhotos.map((p) => (
               <figure class="relative overflow-hidden rounded-3xl">
                 <Image src={p.image} alt={p.alt} widths={[480, 800, 1200]} sizes="(min-width: 640px) 50vw, 100vw" class:list={['w-full object-cover', p.portrait ? 'aspect-[3/4]' : 'aspect-[4/3]']} />

@@ -165,6 +165,6 @@ export const faqs: Faq[] = [
 /**
  * Set to true while photos are AI-generated or otherwise illustrative:
  * each photo then gets a visible "Zdjęcie poglądowe" label (EU AI Act transparency, no misleading advertising).
- * The current photos are the company's own vehicles (number plates blurred), so no label.
+ * The current photos show the company's own vehicles, but the background and number plates were edited with AI.
  */
-export const photosAreIllustrative = false;
+export const photosAreIllustrative = true;
