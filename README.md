@@ -50,6 +50,7 @@ to responsive WebP automatically at build time:
 | File name | Shown in |
 |---|---|
 | `ambulans.*` | Hero, next to the phone number. Without it, the round logo is shown. |
+| `ambulans-vw.*`, `ambulans-renault.*` | "O nas" section, portrait photos of each vehicle |
 | `wnetrze.*` | "O nas" section (optional) |
 | `zespol.*` | "O nas" section (optional) |
 
@@ -106,7 +107,7 @@ While on the github.io address the site is marked `noindex`, so search engines d
 - Office hours
 - Service area
 - Whether transport is provided under an NFZ contract (FAQ)
-- Photos (see above)
+- Interior and team photos (optional, see above)
 - Confirmation of the service lists in `src/data/company.ts`
 
 The privacy policy is a template. Have it reviewed once the company details are final.
