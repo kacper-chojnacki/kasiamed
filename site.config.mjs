@@ -16,5 +16,5 @@ export const siteConfig = {
    * Web3Forms access key (https://web3forms.com). Not a secret — it is visible in the page source by design.
    * Leave empty to run the contact form in preview mode.
    */
-  web3formsAccessKey: '',
+  web3formsAccessKey: 'aa1218f4-e65f-46bd-9d94-9e7fd05f8057',
 };
