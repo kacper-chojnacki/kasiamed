@@ -5,7 +5,8 @@
 
 export const company = {
   name: 'KASIA MED',
-  legalName: null as string | null,
+  /** As registered in CEIDG (sole proprietorship: owner's name + brand). */
+  legalName: 'Krzysztof Przybysz KASIAMED' as string | null,
   tagline: 'Transport sanitarny z sercem i empatią.',
   summary:
     'Transport sanitarny, opieka medyczna i zabezpieczenie medyczne wydarzeń. Całodobowa dyspozytornia.',
@@ -29,7 +30,7 @@ export const company = {
   dispatchHours: 'Całodobowo, 7 dni w tygodniu',
   officeHours: null as string | null,
 
-  serviceArea: null as string | null,
+  serviceArea: 'Cała Polska i Europa (np. przewozy Holandia – Polska)' as string | null,
 
   regon: null as string | null,
   registry: null as string | null,
@@ -136,12 +137,16 @@ export const faqs: Faq[] = [
     a: 'Cena zależy od trasy, terminu i potrzeb pacjenta. Podajemy ją przez telefon, zanim przyjmiemy zlecenie.',
   },
   {
+    q: 'Czy jeździcie za granicę?',
+    a: 'Tak. Przewozimy pacjentów w całej Polsce i Europie, np. z Holandii do Polski.',
+  },
+  {
     q: 'Czy jeździcie w nocy, w weekendy i święta?',
     a: 'Tak. Dyspozytornia odbiera telefony całą dobę, 7 dni w tygodniu.',
   },
   {
     q: 'Czy przewóz może być refundowany przez NFZ?',
-    a: 'W niektórych sytuacjach bezpłatny transport zleca lekarz. {placeholder:Informacja, czy firma realizuje przewozy w ramach NFZ} Przewozy prywatne wyceniamy indywidualnie.',
+    a: 'Nie. Świadczymy wyłącznie prywatne usługi komercyjne. Cenę każdego przewozu ustalamy indywidualnie i podajemy przez telefon.',
   },
   {
     q: 'Czy ktoś z rodziny może jechać z pacjentem?',

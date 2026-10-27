@@ -102,13 +102,10 @@ While on the github.io address the site is marked `noindex`, so search engines d
 
 ## Content still to be provided
 
-- Full legal company name, REGON (the NIP is intentionally not shown on the site)
-- Web3Forms key for `kasiamed-bukowiec@wp.pl`
-- Office hours
-- Service area
-- Whether transport is provided under an NFZ contract (FAQ)
+- REGON (shown in the footer and privacy policy once set; hidden while `null`)
+- Office hours (hidden while `null`)
+- Check `legalName` against the CEIDG entry once the business is registered
 - Interior and team photos (optional, see above)
-- Confirmation of the service lists in `src/data/company.ts`
 
 The privacy policy is a template. Have it reviewed once the company details are final.
 

@@ -1,6 +1,5 @@
 ---
 import Logo from './Logo.astro';
-import Placeholder from './Placeholder.astro';
 import { company, fullAddress, telHref } from '../data/company';
 import { url } from '../lib/url';
 
@@ -23,8 +22,14 @@ const year = new Date().getFullYear();
     <div class="container-page flex flex-col gap-3 py-6 text-base text-navy-200 md:flex-row md:items-center md:justify-between">
       <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span>© {year} {company.legalName ?? company.name}</span>
-        <span aria-hidden="true">·</span>
-        <span>REGON: {company.regon ?? <Placeholder label="REGON" />}</span>
+        {
+          company.regon && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>REGON: {company.regon}</span>
+            </>
+          )
+        }
       </p>
       <a href={url('polityka-prywatnosci/')} class="underline underline-offset-4 hover:text-white">Polityka prywatności</a>
     </div>

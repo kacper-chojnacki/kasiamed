@@ -86,6 +86,10 @@ const answerParts = (text: string) =>
           </li>
           <li class="flex items-start gap-3">
             <Check class="mt-0.5 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
+            Przewozy w całej Polsce i Europie
+          </li>
+          <li class="flex items-start gap-3">
+            <Check class="mt-0.5 size-6 shrink-0 text-brand-red-600" aria-hidden="true" />
             Biuro: {fullAddress}
           </li>
         </ul>
@@ -296,7 +300,7 @@ const answerParts = (text: string) =>
               <div>
                 <p class="text-slate-600">Godziny</p>
                 <p class="font-semibold text-navy-900">Telefon: całą dobę</p>
-                <p>Biuro: {company.officeHours ?? <Placeholder label="godziny biura" />}</p>
+                {company.officeHours && <p>Biuro: {company.officeHours}</p>}
               </div>
             </li>
             <li class="flex gap-4">
