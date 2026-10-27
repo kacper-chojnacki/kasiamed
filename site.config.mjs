@@ -6,15 +6,15 @@
  *                        (and add public/CNAME containing "kasiamed.pl")
  */
 export const siteConfig = {
-  site: 'https://kacper-chojnacki.github.io',
-  base: '/kasiamed',
+  site: 'https://kasiamed.pl',
+  base: '/',
 
   /** Allow search engines to index the site. Keep false on the temporary github.io address. */
-  indexable: false,
+  indexable: true,
 
   /**
    * Web3Forms access key (https://web3forms.com). Not a secret — it is visible in the page source by design.
    * Leave empty to run the contact form in preview mode.
    */
-  web3formsAccessKey: '',
+  web3formsAccessKey: 'aa1218f4-e65f-46bd-9d94-9e7fd05f8057',
 };

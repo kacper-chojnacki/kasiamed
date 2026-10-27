@@ -17,7 +17,7 @@ interface Props {
 
 const {
   title,
-  description = `${company.name}: transport sanitarny, opieka medyczna i zabezpieczenie medyczne imprez. ${company.address.city} i okolice, woj. ${company.address.region}. Całodobowa dyspozytornia: ${company.phone.display}.`,
+  description = `${company.name}: transport sanitarny, opieka medyczna i zabezpieczenie medyczne imprez. ${company.address.city}, woj. ${company.address.region}. Przewozy w całej Polsce i Europie. Całodobowa dyspozytornia: ${company.phone.display}.`,
   noindex = false,
 } = Astro.props;
 
@@ -40,7 +40,6 @@ const structuredData = {
   image: ogImage.href,
   telephone: company.phone.e164,
   ...(company.email && { email: company.email }),
-  ...(company.nip && { vatID: `PL${company.nip.replace(/\D/g, '')}` }),
   address: {
     '@type': 'PostalAddress',
     streetAddress: company.address.street,

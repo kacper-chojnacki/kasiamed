@@ -5,17 +5,18 @@
 
 export const company = {
   name: 'KASIA MED',
-  legalName: null as string | null,
-  tagline: 'Twoje zdrowie, nasz priorytet.',
+  /** As registered in CEIDG (sole proprietorship: owner's name + brand). */
+  legalName: 'Krzysztof Przybysz KASIAMED' as string | null,
+  tagline: 'Transport sanitarny z sercem i empatią.',
   summary:
     'Transport sanitarny, opieka medyczna i zabezpieczenie medyczne wydarzeń. Całodobowa dyspozytornia.',
 
   phone: {
-    display: '720 741 999',
-    e164: '+48720741999',
+    display: '720 941 999',
+    e164: '+48720941999',
   },
   /** Email that receives enquiries; also displayed on the site. */
-  email: null as string | null,
+  email: 'kasiamed-bukowiec@wp.pl' as string | null,
 
   address: {
     street: 'ul. Dworcowa 30B',
@@ -29,9 +30,8 @@ export const company = {
   dispatchHours: 'Całodobowo, 7 dni w tygodniu',
   officeHours: null as string | null,
 
-  serviceArea: null as string | null,
+  serviceArea: 'Cała Polska i Europa (np. przewozy Holandia – Polska)' as string | null,
 
-  nip: null as string | null,
   regon: null as string | null,
   registry: null as string | null,
 
@@ -64,7 +64,12 @@ export const services: Service[] = [
     icon: 'ambulance',
     title: 'Transport sanitarny',
     lead: 'Bezpieczny przewóz pacjenta ambulansem.',
-    items: ['Z domu do szpitala i z powrotem', 'Między szpitalami i placówkami', 'Na badania, zabiegi i rehabilitację'],
+    items: [
+      'Na badania i wizyty kontrolne',
+      'Ze szpitala do domu',
+      'Między szpitalami i placówkami',
+      'Do urzędu, z pomocą na miejscu',
+    ],
   },
   {
     id: 'opieka',
@@ -79,6 +84,38 @@ export const services: Service[] = [
     title: 'Zabezpieczenie imprez',
     lead: 'Opieka medyczna na wydarzeniach.',
     items: ['Imprezy sportowe i plenerowe', 'Wydarzenia firmowe i rodzinne', 'Pierwsza pomoc na miejscu'],
+  },
+];
+
+export type HighlightIcon = 'calm' | 'family' | 'team' | 'fleet';
+
+export interface Highlight {
+  icon: HighlightIcon;
+  title: string;
+  text: string;
+}
+
+/** "Co nas wyróżnia" in the About section, taken from the company's two-page flyer. */
+export const highlights: Highlight[] = [
+  {
+    icon: 'calm',
+    title: 'Bez pośpiechu',
+    text: 'Czas w drodze jest tylko dla pacjenta.',
+  },
+  {
+    icon: 'family',
+    title: 'Bliscy mogą jechać z nami',
+    text: 'Osoba z rodziny lub opiekun jest zawsze mile widziany.',
+  },
+  {
+    icon: 'team',
+    title: 'Doświadczony zespół',
+    text: '4 ratowników i 2 ratowniczki.',
+  },
+  {
+    icon: 'fleet',
+    title: 'Dwa ambulanse typu B',
+    text: 'Na pokładzie defibrylator AED i torby ratownicze R1.',
   },
 ];
 
@@ -100,12 +137,20 @@ export const faqs: Faq[] = [
     a: 'Cena zależy od trasy, terminu i potrzeb pacjenta. Podajemy ją przez telefon, zanim przyjmiemy zlecenie.',
   },
   {
+    q: 'Czy jeździcie za granicę?',
+    a: 'Tak. Przewozimy pacjentów w całej Polsce i Europie, np. z Holandii do Polski.',
+  },
+  {
     q: 'Czy jeździcie w nocy, w weekendy i święta?',
     a: 'Tak. Dyspozytornia odbiera telefony całą dobę, 7 dni w tygodniu.',
   },
   {
     q: 'Czy przewóz może być refundowany przez NFZ?',
-    a: 'W niektórych sytuacjach bezpłatny transport zleca lekarz. {placeholder:Informacja, czy firma realizuje przewozy w ramach NFZ} Przewozy prywatne wyceniamy indywidualnie.',
+    a: 'Nie. Świadczymy wyłącznie prywatne usługi komercyjne. Cenę każdego przewozu ustalamy indywidualnie i podajemy przez telefon.',
+  },
+  {
+    q: 'Czy ktoś z rodziny może jechać z pacjentem?',
+    a: 'Tak. Osoba z rodziny lub opiekun jest zawsze mile widziany na pokładzie.',
   },
   {
     q: 'Jak zamówić zabezpieczenie imprezy?',
@@ -120,5 +165,6 @@ export const faqs: Faq[] = [
 /**
  * Set to true while photos are AI-generated or otherwise illustrative:
  * each photo then gets a visible "Zdjęcie poglądowe" label (EU AI Act transparency, no misleading advertising).
+ * The current photos show the company's own vehicles; only the background and number plates were retouched, so no label.
  */
-export const photosAreIllustrative = true;
+export const photosAreIllustrative = false;
