@@ -15,7 +15,6 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
   class="card p-6 sm:p-8"
   data-contact-form
   data-live={String(isLive)}
-  novalidate
 >
   <input type="hidden" name="access_key" value={accessKey} />
   <input type="hidden" name="subject" value={`Prośba o kontakt ze strony ${company.name}`} />
@@ -90,6 +89,8 @@ const redirect = new URL(url('dziekujemy/'), Astro.site).href;
 
     // The button starts disabled in preview mode so the no-JS fallback never posts without a key.
     submit.disabled = false;
+    // Validation is handled below; without JS the browser's own required-field checks still apply.
+    form.noValidate = true;
 
     const show = (kind: 'success' | 'error' | 'info', message: string) => {
       status.className = 'mt-5 rounded-2xl px-5 py-4 text-lg';
