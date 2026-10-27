@@ -40,7 +40,6 @@ const structuredData = {
   image: ogImage.href,
   telephone: company.phone.e164,
   ...(company.email && { email: company.email }),
-  ...(company.nip && { vatID: `PL${company.nip.replace(/\D/g, '')}` }),
   address: {
     '@type': 'PostalAddress',
     streetAddress: company.address.street,

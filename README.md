@@ -32,8 +32,8 @@ npm run preview   # serve the production build (CSP is only active here)
 
 | What | File |
 |---|---|
-| Company details: phone, email, address, NIP, REGON, hours, service area | `src/data/company.ts` |
-| Services, ordering steps, FAQ | `src/data/company.ts` |
+| Company details: phone, email, address, REGON, hours, service area | `src/data/company.ts` |
+| Services, "Co nas wyróżnia" highlights, ordering steps, FAQ | `src/data/company.ts` |
 | Domain, base path, search indexing, Web3Forms key | `site.config.mjs` |
 | Page layout and sections | `src/pages/index.astro` |
 | Privacy policy | `src/pages/polityka-prywatnosci.astro` |
@@ -101,11 +101,10 @@ While on the github.io address the site is marked `noindex`, so search engines d
 
 ## Content still to be provided
 
-- Full legal company name, NIP, REGON
-- Email address shown on the site (and used for the Web3Forms key)
+- Full legal company name, REGON (the NIP is intentionally not shown on the site)
+- Web3Forms key for `kasiamed-bukowiec@wp.pl`
 - Office hours
 - Service area
-- Company history, experience, team qualifications, fleet
 - Whether transport is provided under an NFZ contract (FAQ)
 - Photos (see above)
 - Confirmation of the service lists in `src/data/company.ts`

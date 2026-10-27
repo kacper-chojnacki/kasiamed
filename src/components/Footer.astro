@@ -24,8 +24,6 @@ const year = new Date().getFullYear();
       <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span>© {year} {company.legalName ?? company.name}</span>
         <span aria-hidden="true">·</span>
-        <span>NIP: {company.nip ?? <Placeholder label="NIP" />}</span>
-        <span aria-hidden="true">·</span>
         <span>REGON: {company.regon ?? <Placeholder label="REGON" />}</span>
       </p>
       <a href={url('polityka-prywatnosci/')} class="underline underline-offset-4 hover:text-white">Polityka prywatności</a>

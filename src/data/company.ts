@@ -6,16 +6,16 @@
 export const company = {
   name: 'KASIA MED',
   legalName: null as string | null,
-  tagline: 'Twoje zdrowie, nasz priorytet.',
+  tagline: 'Transport sanitarny z sercem i empatią.',
   summary:
     'Transport sanitarny, opieka medyczna i zabezpieczenie medyczne wydarzeń. Całodobowa dyspozytornia.',
 
   phone: {
-    display: '720 741 999',
-    e164: '+48720741999',
+    display: '720 941 999',
+    e164: '+48720941999',
   },
   /** Email that receives enquiries; also displayed on the site. */
-  email: null as string | null,
+  email: 'kasiamed-bukowiec@wp.pl' as string | null,
 
   address: {
     street: 'ul. Dworcowa 30B',
@@ -31,7 +31,6 @@ export const company = {
 
   serviceArea: null as string | null,
 
-  nip: null as string | null,
   regon: null as string | null,
   registry: null as string | null,
 
@@ -64,7 +63,12 @@ export const services: Service[] = [
     icon: 'ambulance',
     title: 'Transport sanitarny',
     lead: 'Bezpieczny przewóz pacjenta ambulansem.',
-    items: ['Z domu do szpitala i z powrotem', 'Między szpitalami i placówkami', 'Na badania, zabiegi i rehabilitację'],
+    items: [
+      'Na badania i wizyty kontrolne',
+      'Ze szpitala do domu',
+      'Między szpitalami i placówkami',
+      'Do urzędu, z pomocą na miejscu',
+    ],
   },
   {
     id: 'opieka',
@@ -79,6 +83,38 @@ export const services: Service[] = [
     title: 'Zabezpieczenie imprez',
     lead: 'Opieka medyczna na wydarzeniach.',
     items: ['Imprezy sportowe i plenerowe', 'Wydarzenia firmowe i rodzinne', 'Pierwsza pomoc na miejscu'],
+  },
+];
+
+export type HighlightIcon = 'calm' | 'family' | 'team' | 'fleet';
+
+export interface Highlight {
+  icon: HighlightIcon;
+  title: string;
+  text: string;
+}
+
+/** "Co nas wyróżnia" in the About section, taken from the company's two-page flyer. */
+export const highlights: Highlight[] = [
+  {
+    icon: 'calm',
+    title: 'Bez pośpiechu',
+    text: 'U nas nikt się nie spieszy. Czas w drodze jest w całości dla pacjenta, bez zbędnego stresu.',
+  },
+  {
+    icon: 'family',
+    title: 'Bliscy mogą jechać z nami',
+    text: 'Osoba z rodziny lub opiekun jest zawsze mile widziany na pokładzie.',
+  },
+  {
+    icon: 'team',
+    title: 'Doświadczony zespół',
+    text: '4 ratowników i 2 ratowniczki. Przeszkoleni, wyrozumiali i gotowi pomóc w każdej sytuacji.',
+  },
+  {
+    icon: 'fleet',
+    title: 'Dwa ambulanse typu B',
+    text: 'W pełni przystosowane do przewozu pacjentów. Na pokładzie defibrylator AED i torby ratownicze R1.',
   },
 ];
 
@@ -106,6 +142,10 @@ export const faqs: Faq[] = [
   {
     q: 'Czy przewóz może być refundowany przez NFZ?',
     a: 'W niektórych sytuacjach bezpłatny transport zleca lekarz. {placeholder:Informacja, czy firma realizuje przewozy w ramach NFZ} Przewozy prywatne wyceniamy indywidualnie.',
+  },
+  {
+    q: 'Czy ktoś z rodziny może jechać z pacjentem?',
+    a: 'Tak. Osoba z rodziny lub opiekun jest zawsze mile widziany na pokładzie.',
   },
   {
     q: 'Jak zamówić zabezpieczenie imprezy?',
