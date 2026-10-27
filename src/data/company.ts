@@ -99,22 +99,22 @@ export const highlights: Highlight[] = [
   {
     icon: 'calm',
     title: 'Bez pośpiechu',
-    text: 'U nas nikt się nie spieszy. Czas w drodze jest w całości dla pacjenta, bez zbędnego stresu.',
+    text: 'Czas w drodze jest tylko dla pacjenta.',
   },
   {
     icon: 'family',
     title: 'Bliscy mogą jechać z nami',
-    text: 'Osoba z rodziny lub opiekun jest zawsze mile widziany na pokładzie.',
+    text: 'Osoba z rodziny lub opiekun jest zawsze mile widziany.',
   },
   {
     icon: 'team',
     title: 'Doświadczony zespół',
-    text: '4 ratowników i 2 ratowniczki. Przeszkoleni, wyrozumiali i gotowi pomóc w każdej sytuacji.',
+    text: '4 ratowników i 2 ratowniczki.',
   },
   {
     icon: 'fleet',
     title: 'Dwa ambulanse typu B',
-    text: 'W pełni przystosowane do przewozu pacjentów. Na pokładzie defibrylator AED i torby ratownicze R1.',
+    text: 'Na pokładzie defibrylator AED i torby ratownicze R1.',
   },
 ];
 

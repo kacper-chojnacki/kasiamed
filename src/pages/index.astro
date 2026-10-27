@@ -185,10 +185,8 @@ const answerParts = (text: string) =>
             opieką medyczną i zabezpieczeniem medycznym imprez. Start działalności: listopad 2026.
           </p>
           <p>
-            Nazwa firmy nie jest przypadkowa. Powstała z osobistych doświadczeń założyciela, zdobytych podczas opieki
-            nad żoną i jej leczenia. Dlatego dobrze rozumiemy, ile stresu, niepewności i wysiłku kosztują
-            wizyty lekarskie i wyjazdy medyczne. Chcemy, żeby każdy przejazd był spokojny, bezpieczny i pełen
-            szacunku.
+            Nazwa nie jest przypadkowa. Firma powstała z doświadczeń założyciela przy opiece nad żoną. Dlatego wiemy,
+            ile stresu kosztuje każdy wyjazd do lekarza.
           </p>
         </div>
       </div>
@@ -198,7 +196,7 @@ const answerParts = (text: string) =>
           highlights.map((item) => {
             const Icon = highlightIcons[item.icon];
             return (
-              <li class="card flex gap-5 p-7">
+              <li class="card flex flex-col gap-5 p-7 sm:flex-row">
                 <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-navy-50 text-navy-700">
                   <Icon class="size-8" aria-hidden="true" />
                 </span>
